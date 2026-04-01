@@ -1,8 +1,36 @@
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import withPageStyle from "../utils/withPageStyle.jsx";
 import pageCss from "../styles/login.css?inline";
+import {useState} from "react";
+import axios from "axios";
 
 function Login() {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] =useState("");
+    const navigate =useNavigate();
+
+    const handleLogin =(e) => {
+        e.preventDefault();
+
+        axios.post("http://localhost:8080/api/auth/login", {
+            email: email,
+            password: password,
+        })
+            .then((res) => {
+                localStorage.setItem("employeeId", res.data.id);
+                localStorage.setItem("name", res.data.name);
+                localStorage.setItem("role", res.data.role);
+                localStorage.setItem("position", res.data.position);
+
+                navigate("/dashboard");
+            })
+            .catch((err) =>{
+                console.error("로그인 실패:",err);
+                alert("이메일 또는 비밀번호를 확인해주세요.");
+            });
+    };
+
     return (
         <>
             <div className="main-wrapper">
@@ -21,7 +49,7 @@ function Login() {
                     </div>
 
                     <div className="login-card">
-                        <form onSubmit={(e) => e.preventDefault()}>
+                        <form onSubmit={handleLogin}>
                             <div className="form-group">
                                 <div className="form-label-row">
                                     <label className="label-text" htmlFor="login_id">
@@ -43,6 +71,8 @@ function Login() {
                                         name="login_id"
                                         placeholder="사번 또는 이메일"
                                         type="text"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -71,6 +101,8 @@ function Login() {
                                         name="password"
                                         placeholder="••••••••"
                                         type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </div>
                             </div>
