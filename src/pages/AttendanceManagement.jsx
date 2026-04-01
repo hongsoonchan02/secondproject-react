@@ -1,13 +1,13 @@
-import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import withPageStyle from "../utils/withPageStyle.jsx";
 import pageCss from "../styles/dashboard.css?inline";
+import Sidebar from "../components/Sidebar.jsx";
 
 function AttendanceManagement() {
     return (
         <>
-            <Sidebar />
             <Header />
+            <Sidebar />
             <main>
                 <div className="page-header">
                     <div className="page-title">

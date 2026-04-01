@@ -1,13 +1,13 @@
-import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import withPageStyle from "../utils/withPageStyle.jsx";
 import pageCss from "../styles/dashboard.css?inline";
+import Sidebar from "../components/Sidebar.jsx";
 
 function Dashboard() {
     return (
         <>
-            <Sidebar />
             <Header />
+            <Sidebar />
             <div className="main-dashboard">
                 <div className="content-padding">
                     <div className="page-header">
