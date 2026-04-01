@@ -74,8 +74,8 @@ function Dashboard() {
     };
 
     // 오늘 출근/퇴근 여부 판단
-    const isCheckedIn = dashboardData?.todayAttendance?.startTime != null;
-    const isCheckedOut = dashboardData?.todayAttendance?.endTime != null;
+    const isCheckedIn = dashboardData?.checkedInToday;
+    const isCheckedOut = false;
 
     if (loading) return <div>로딩 중...</div>;
 
@@ -111,7 +111,7 @@ function Dashboard() {
                                 {/* API에서 받아온 출근 시각으로 교체 */}
                                 <p className="time-display">
                                     {isCheckedIn
-                                        ? formatTime(dashboardData.todayAttendance.startTime)
+                                        ? formatTime(dashboardData.todayStartTime)
                                         : "--:--"}
                                 </p>
                                 <p className="date-sub">{formatDate(new Date().toISOString())}</p>
@@ -149,7 +149,7 @@ function Dashboard() {
                                 </div>
                                 <div className="stat-value-box">
                                     <span className="stat-value" style={{ color: "var(--primary)" }}>
-                                        {dashboardData?.remainingVacation ?? "-"}
+                                        {"-"}
                                     </span>
                                     <span className="stat-unit">일</span>
                                 </div>
@@ -193,7 +193,7 @@ function Dashboard() {
                                     </thead>
                                     <tbody>
                                     {/* map: 배열을 반복해서 각 항목을 tr로 변환 */}
-                                    {dashboardData?.recentAttendances?.map((record, index) => (
+                                    {dashboardData?.attendanceList?.map((record, index) => (
                                         <tr key={index}>
                                             <td>{formatDate(record.date)}</td>
                                             <td>{formatTime(record.startTime)}</td>
