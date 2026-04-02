@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import withPageStyle from "../utils/withPageStyle.jsx";
 import pageCss from "../styles/department-edit.css?inline";
 import useDepartmentUpdateHook from "../hooks/useEditHook.js";
+import usePaginationHook from "../hooks/usePaginationHook.js";
 
 function DepartmentEdit() {
 
@@ -13,6 +14,16 @@ function DepartmentEdit() {
         memberData,
         handleDelete
     } = useDepartmentUpdateHook();
+
+    const {
+        currentPage,
+        pagedData,
+        firstGroupPageNum,
+        lastGroupPageNum,
+        handlePageChange,
+        goToNextPage,
+        goToBeforePage
+    } = usePaginationHook(data);
     return (
         <>
             <Sidebar />
@@ -92,15 +103,15 @@ function DepartmentEdit() {
                             </thead>
                             <tbody>
                                 {memberData?.map((member) => (
-                                <tr key={member.email}>
-                                    <td>EMP-2023-01</td>
-                                    <td style={{ fontWeight: 600 }}>{member.name}</td>
-                                    <td>
-                                        <span className="role-badge">{member.position}</span>
-                                    </td>
-                                    <td>{member.email}</td>
-                                    <td>{member.hireDate}</td>
-                                </tr>
+                                    <tr key={member.email}>
+                                        <td>EMP-2023-01</td>
+                                        <td style={{ fontWeight: 600 }}>{member.name}</td>
+                                        <td>
+                                            <span className="role-badge">{member.position}</span>
+                                        </td>
+                                        <td>{member.email}</td>
+                                        <td>{member.hireDate}</td>
+                                    </tr>
                                 ))}
                             </tbody>
                         </table>
@@ -116,7 +127,9 @@ function DepartmentEdit() {
                                 전체 인원 12명 중 1~5번째 표시 중
                             </p>
                             <div className="pagination">
-                                <button className="page-btn">
+                                <button className="page-btn"
+                                onClick={goToBeforePage}
+                                type="button">
                                     <span
                                         className="material-symbols-outlined"
                                         style={{ fontSize: 16 }}
@@ -124,10 +137,16 @@ function DepartmentEdit() {
                                         chevron_left
                                     </span>
                                 </button>
-                                <button className="page-btn active">1</button>
-                                <button className="page-btn">2</button>
-                                <button className="page-btn">3</button>
-                                <button className="page-btn">
+                                {Array.from({ length: lastGroupPageNum - firstGroupPageNum + 1 }, (_, i) => i + firstGroupPageNum).map((pageNum) => (
+                                <button 
+                                key={pageNum}
+                                className={`page-btn ${currentPage === pageNum ? 'active' : ''}`}
+                                type="button"
+                                onClick={() => handlePageChange(pageNum)}>1</button>
+                                ))}
+                                <button className="page-btn"
+                                onClick={goToNextPage}
+                                type="button">
                                     <span
                                         className="material-symbols-outlined"
                                         style={{ fontSize: 16 }}

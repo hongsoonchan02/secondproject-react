@@ -112,7 +112,9 @@ function DepartmentManagement() {
                                 전체 {data?.length || 0}개의 부서 중 {(currentPage - 1) * 5 + 1} ~ {Math.min(currentPage * 5, data?.length || 0)}번째 표시 중
                             </p>
                             <div className="pagination">
-                                <button className="page-btn" onClick={goToBeforePage} type="button">
+                                <button className="page-btn"
+                                    onClick={goToBeforePage}
+                                    type="button">
                                     <span className="material-symbols-outlined">chevron_left</span>
                                 </button>
                                 {Array.from({ length: lastGroupPageNum - firstGroupPageNum + 1 }, (_, i) => i + firstGroupPageNum).map((pageNum) => (
@@ -125,7 +127,9 @@ function DepartmentManagement() {
                                         {pageNum}
                                     </button>
                                 ))}
-                                <button className="page-btn" onClick={goToNextPage} type="button">
+                                <button className="page-btn"
+                                    onClick={goToNextPage}
+                                    type="button">
                                     <span className="material-symbols-outlined">chevron_right</span>
                                 </button>
                             </div>
