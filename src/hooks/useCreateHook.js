@@ -30,7 +30,7 @@ const useDepartmentCreateHook = () => {
         const now = new Date()
         const created = new Date(createdDate)
         const dateSub = Math.floor((now - created) / (1000 * 60 * 60 * 24))
-        return `${dateSub}일 전`
+        return `${dateSub}일 전`;
 
     } 
 

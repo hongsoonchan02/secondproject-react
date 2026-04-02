@@ -67,7 +67,7 @@ function DepartmentCreate() {
                                             className="input-field"
                                             placeholder="사번 입력"
                                             type="text"
-                                            name="dpManagementEmpId"
+                                            name="dpManagerEmpId"
                                             onChange={handleChange}
                                         />
                                     </div>

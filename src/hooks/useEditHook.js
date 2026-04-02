@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUpdateDepartmentMutation, useDetailDepartmentQuery, useDepartmentMemberQuery, useDeleteDepartmentMutation } from "../query/departmentQuery"
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 
 
@@ -11,6 +11,7 @@ const useDepartmentUpdateHook = () => {
      const { data, isLoading } = useDetailDepartmentQuery(dpNum);
      const { data: memberData, isLoading: memberIsLoading } = useDepartmentMemberQuery(dpNum);
      const deleteMutation = useDeleteDepartmentMutation();
+     const navigate = useNavigate();
      const [formData, setFormData] = useState({
           dpCode: "",
           dpName: "",
@@ -45,7 +46,7 @@ const useDepartmentUpdateHook = () => {
      const handleDelete = () => {
           deleteMutation.mutate(dpNum, {
                onSuccess: () => {
-                    Navigate('/department-management')
+                    navigate('/department-management')
                }
           });
      }

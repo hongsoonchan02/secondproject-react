@@ -23,7 +23,7 @@ function DepartmentEdit() {
         handlePageChange,
         goToNextPage,
         goToBeforePage
-    } = usePaginationHook(data);
+    } = usePaginationHook(memberData);
     return (
         <>
             <Sidebar />
@@ -73,7 +73,7 @@ function DepartmentEdit() {
                             <input
                                 type="text"
                                 defaultValue={formData.dpManagerName}
-                                name="name"
+                                name="dpManagerName"
                                 onChange={handleChange} />
                         </div>
                         <div className="form-group full-width">
@@ -102,9 +102,9 @@ function DepartmentEdit() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {memberData?.map((member) => (
+                                {pagedData?.map((member) => (
                                     <tr key={member.email}>
-                                        <td>EMP-2023-01</td>
+                                        <td>{member.empId}</td>
                                         <td style={{ fontWeight: 600 }}>{member.name}</td>
                                         <td>
                                             <span className="role-badge">{member.position}</span>
@@ -142,7 +142,7 @@ function DepartmentEdit() {
                                 key={pageNum}
                                 className={`page-btn ${currentPage === pageNum ? 'active' : ''}`}
                                 type="button"
-                                onClick={() => handlePageChange(pageNum)}>1</button>
+                                onClick={() => handlePageChange(pageNum)}>{pageNum}</button>
                                 ))}
                                 <button className="page-btn"
                                 onClick={goToNextPage}
