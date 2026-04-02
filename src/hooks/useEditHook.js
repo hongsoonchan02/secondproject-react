@@ -12,6 +12,8 @@ const useDepartmentUpdateHook = () => {
      const { data: memberData, isLoading: memberIsLoading } = useDepartmentMemberQuery(dpNum);
      const deleteMutation = useDeleteDepartmentMutation();
      const navigate = useNavigate();
+
+     
      const [formData, setFormData] = useState({
           dpCode: "",
           dpName: "",

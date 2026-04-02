@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useCreateDepartmentMutation, useRecentDepartmentQuery } from "../query/departmentQuery"
+import { dateSub } from "../utils/createUtil";
 
 
 
@@ -29,8 +30,8 @@ const useDepartmentCreateHook = () => {
     const getDaysAge = (createdDate) => {
         const now = new Date()
         const created = new Date(createdDate)
-        const dateSub = Math.floor((now - created) / (1000 * 60 * 60 * 24))
-        return `${dateSub}일 전`;
+        const days = dateSub(now, created);
+        return `${days}일 전`;
 
     } 
 
