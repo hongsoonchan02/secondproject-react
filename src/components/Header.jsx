@@ -1,4 +1,8 @@
 function Header() {
+
+    const name = localStorage.getItem("name")?? "사용자";
+    const position = localStorage.getItem("position")??"";
+
     return(
         <header className="topbar">
         <div className="topbar-left">
@@ -10,8 +14,8 @@ function Header() {
             </button>
             <div className="user-profile">
             <div className="user-info">
-                <p className="user-name">마커스 베리티</p>
-                <p className="user-role">수석 프로젝트 아키텍트 (팀장)</p>
+                <p className="user-name">{name}</p>
+                <p className="user-role">{position}</p>
             </div>
             <img
                 alt="Profile"
