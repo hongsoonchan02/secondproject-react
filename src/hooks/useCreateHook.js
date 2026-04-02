@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useCreateDepartmentMutation, useRecentDepartmentQuery } from "../query/departmentQuery"
 import { dateSub } from "../utils/createUtil";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -8,6 +9,7 @@ const useDepartmentCreateHook = () => {
 
     const createMutation = useCreateDepartmentMutation();
     const { data, isLoading } = useRecentDepartmentQuery();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         dpCode: "",
@@ -24,7 +26,10 @@ const useDepartmentCreateHook = () => {
     }
 
     const handleSubmit = () => {
-        createMutation.mutate(formData);
+        createMutation.mutate(formData, {
+            onSuccess: navigate('/department-management')
+        });
+        
     }
 
     const getDaysAge = (createdDate) => {

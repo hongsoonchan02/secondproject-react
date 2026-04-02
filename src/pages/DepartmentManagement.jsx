@@ -86,7 +86,7 @@ function DepartmentManagement() {
                                         <td className="name-cell">{dept.dpName}</td>
                                         <td>
                                             <div className="manager-cell">
-                                                <div className="avatar-shell">{dept.dpManagerName[0]}</div>
+                                                <div className="avatar-shell">{dept.dpManagerName?.[0]}</div>
                                                 <span>{dept.dpManagerName}</span>
                                             </div>
                                         </td>

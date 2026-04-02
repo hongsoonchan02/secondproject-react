@@ -13,7 +13,7 @@ const useDepartmentUpdateHook = () => {
      const deleteMutation = useDeleteDepartmentMutation();
      const navigate = useNavigate();
 
-     
+
      const [formData, setFormData] = useState({
           dpCode: "",
           dpName: "",
@@ -42,7 +42,11 @@ const useDepartmentUpdateHook = () => {
      }
 
      const handleSumit = () => {
-          editMutation.mutate({ id: dpNum, data: formData });
+          editMutation.mutate({ id: dpNum, data: formData }, {
+               onSuccess: () => {
+                    navigate('/department-management')
+               }
+          });
      }
 
      const handleDelete = () => {
