@@ -2,24 +2,23 @@ import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import withPageStyle from '../utils/withPageStyle.jsx'
 import pageCss from '../styles/dashboard.css?inline'
-import useDepartmentManagement from '../hooks/useManagement.js'
-import usePagination from '../hooks/usePagination.js'
+import useDepartmentManagementHook from '../hooks/useManagementHook.js'
+import usePaginationHook from '../hooks/usePaginationHook.js'
 import { useState } from 'react'
 
 function DepartmentManagement() {
 
     const [keyword, setKeyword] = useState("");
-    const { data } = useDepartmentManagement(keyword);
+    const { data } = useDepartmentManagementHook(keyword);
     const {
         currentPage,
         pagedData,
-        totalPages,
         firstGroupPageNum,
         lastGroupPageNum,
         handlePageChange,
         goToNextPage,
         goToBeforePage
-    } = usePagination(data);
+    } = usePaginationHook(data);
 
     return (
         <>
@@ -49,6 +48,7 @@ function DepartmentManagement() {
                                 <span className="material-symbols-outlined">add</span>
                                 부서 추가
                             </button>
+
                         </div>
                     </div>
 
@@ -97,7 +97,7 @@ function DepartmentManagement() {
                                         <td style={{ textAlign: 'right' }}>
                                             <button
                                                 className="btn-edit"
-                                                onClick={() => (window.location.href = '/department-edit')}
+                                                onClick={() => (window.location.href = `/department-edit/${dept.dpNum}`)}
                                             >
                                                 상세 보기
                                             </button>

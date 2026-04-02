@@ -23,3 +23,7 @@ export const getMemberDepartment = (id) => {
 export const deleteDepartment = (id) => {
     return axiosInstance.delete(`/api/departments/${id}`);
 }
+
+export const getDepartmentDetail = (id) => {
+    return axiosInstance.get(`/api/departments/${id}`);
+}

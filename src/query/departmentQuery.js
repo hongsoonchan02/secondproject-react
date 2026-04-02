@@ -52,3 +52,10 @@ export const useDeleteDepartmentMutation = () => {
         }
     })
 }
+
+export const useDetailDepartmentQuery = (id) => {
+    return useQuery({
+        queryKey: ['department', id],
+        queryFn: () => getDepartmentsDetail(id)
+    })
+}
