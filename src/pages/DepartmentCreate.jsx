@@ -2,8 +2,16 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import withPageStyle from "../utils/withPageStyle.jsx";
 import pageCss from "../styles/department-create.css?inline";
+import useDepartmentCreateHook from "../hooks/useCreateHook.js";
 
 function DepartmentCreate() {
+
+    const {
+        handleChange,
+        handleSubmit,
+        data,
+        getDaysAge
+    } = useDepartmentCreateHook();
 
     return (
         <>
@@ -34,6 +42,8 @@ function DepartmentCreate() {
                                             className="input-field"
                                             placeholder="예: DEPT-001"
                                             type="text"
+                                            name="dpCode"
+                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -43,6 +53,8 @@ function DepartmentCreate() {
                                             className="input-field"
                                             placeholder="부서 이름을 입력하세요"
                                             type="text"
+                                            name="dpName"
+                                            onChange={handleChange}
                                         />
                                     </div>
                                 </div>
@@ -55,6 +67,8 @@ function DepartmentCreate() {
                                             className="input-field"
                                             placeholder="사번 입력"
                                             type="text"
+                                            name="dpManagerEmpId"
+                                            onChange={handleChange}
                                         />
                                     </div>
                                 </div>
@@ -66,6 +80,8 @@ function DepartmentCreate() {
                                         placeholder="부서의 주요 역할 및 업무 범위를 상세히 입력하세요..."
                                         rows={4}
                                         defaultValue={""}
+                                        name="dpDetail"
+                                        onChange={handleChange}
                                     />
                                 </div>
 
@@ -78,7 +94,7 @@ function DepartmentCreate() {
                                     >
                                         취소
                                     </button>
-                                    <button className="btn btn-primary">저장하기</button>
+                                    <button className="btn btn-primary" onClick={handleSubmit}>저장하기</button>
                                 </div>
                             </div>
                         </div>
@@ -107,13 +123,15 @@ function DepartmentCreate() {
 
                             <div className="history-card">
                                 <p className="history-title">최근 등록된 부서 (상위 5개)</p>
-                                <div className="history-item">
-                                    <div className="history-item-info">
-                                        <p>AI Lab</p>
-                                        <p>TECH-04</p>
+                                {data?.map((dept) => (
+                                    <div key={dept.dpCode} className="history-item">
+                                        <div className="history-item-info">
+                                            <p>{dept.dpName}</p>
+                                            <p>{dept.dpCode}</p>
+                                        </div>
+                                        <span className="history-tag">{getDaysAge(dept.dpCreatedDate)}</span>
                                     </div>
-                                    <span className="history-tag">2일 전</span>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>

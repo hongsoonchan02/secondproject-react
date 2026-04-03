@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getDepartments, getRecentDepartments, createDepartment, getMemberDepartment, updateDepartment, deleteDepartment } from '../api/departmentApi.js'
+import { getDepartments, getRecentDepartments, createDepartment, getMemberDepartment, updateDepartment, deleteDepartment, getDepartmentDetail } from '../api/departmentApi.js'
 
 export const useDepartmentQuery = (keyword) => {
     return useQuery({
@@ -50,5 +50,12 @@ export const useDeleteDepartmentMutation = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['departments'] })
         }
+    })
+}
+
+export const useDetailDepartmentQuery = (id) => {
+    return useQuery({
+        queryKey: ['department', id],
+        queryFn: () => getDepartmentDetail(id)
     })
 }

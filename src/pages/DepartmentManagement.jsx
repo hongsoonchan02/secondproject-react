@@ -2,24 +2,23 @@ import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import withPageStyle from '../utils/withPageStyle.jsx'
 import pageCss from '../styles/dashboard.css?inline'
-import useDepartmentManagement from '../hooks/useManagement.js'
-import usePagination from '../hooks/usePagination.js'
+import useDepartmentManagementHook from '../hooks/useManagementHook.js'
+import usePaginationHook from '../hooks/usePaginationHook.js'
 import { useState } from 'react'
 
 function DepartmentManagement() {
 
     const [keyword, setKeyword] = useState("");
-    const { data } = useDepartmentManagement(keyword);
+    const { data } = useDepartmentManagementHook(keyword);
     const {
         currentPage,
         pagedData,
-        totalPages,
         firstGroupPageNum,
         lastGroupPageNum,
         handlePageChange,
         goToNextPage,
         goToBeforePage
-    } = usePagination(data);
+    } = usePaginationHook(data);
 
     return (
         <>
@@ -49,6 +48,7 @@ function DepartmentManagement() {
                                 <span className="material-symbols-outlined">add</span>
                                 부서 추가
                             </button>
+
                         </div>
                     </div>
 
@@ -86,7 +86,7 @@ function DepartmentManagement() {
                                         <td className="name-cell">{dept.dpName}</td>
                                         <td>
                                             <div className="manager-cell">
-                                                <div className="avatar-shell">{dept.dpManagerName[0]}</div>
+                                                <div className="avatar-shell">{dept.dpManagerName?.[0]}</div>
                                                 <span>{dept.dpManagerName}</span>
                                             </div>
                                         </td>
@@ -97,7 +97,7 @@ function DepartmentManagement() {
                                         <td style={{ textAlign: 'right' }}>
                                             <button
                                                 className="btn-edit"
-                                                onClick={() => (window.location.href = '/department-edit')}
+                                                onClick={() => (window.location.href = `/department-edit/${dept.dpNum}`)}
                                             >
                                                 상세 보기
                                             </button>
@@ -112,7 +112,9 @@ function DepartmentManagement() {
                                 전체 {data?.length || 0}개의 부서 중 {(currentPage - 1) * 5 + 1} ~ {Math.min(currentPage * 5, data?.length || 0)}번째 표시 중
                             </p>
                             <div className="pagination">
-                                <button className="page-btn" onClick={goToBeforePage} type="button">
+                                <button className="page-btn"
+                                    onClick={goToBeforePage}
+                                    type="button">
                                     <span className="material-symbols-outlined">chevron_left</span>
                                 </button>
                                 {Array.from({ length: lastGroupPageNum - firstGroupPageNum + 1 }, (_, i) => i + firstGroupPageNum).map((pageNum) => (
@@ -125,7 +127,9 @@ function DepartmentManagement() {
                                         {pageNum}
                                     </button>
                                 ))}
-                                <button className="page-btn" onClick={goToNextPage} type="button">
+                                <button className="page-btn"
+                                    onClick={goToNextPage}
+                                    type="button">
                                     <span className="material-symbols-outlined">chevron_right</span>
                                 </button>
                             </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const usePagination = (data = [], pageSize = 5, groupSize = 5) => {
+const usePaginationHook = (data = [], pageSize = 5, groupSize = 5) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = Math.ceil(data.length / pageSize);
@@ -23,7 +23,6 @@ const usePagination = (data = [], pageSize = 5, groupSize = 5) => {
 
     return {
         currentPage,
-        totalPages,
         pagedData,
         firstGroupPageNum,
         lastGroupPageNum,
@@ -33,4 +32,4 @@ const usePagination = (data = [], pageSize = 5, groupSize = 5) => {
     }
 }
 
-export default usePagination;
+export default usePaginationHook;

@@ -2,8 +2,28 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import withPageStyle from "../utils/withPageStyle.jsx";
 import pageCss from "../styles/department-edit.css?inline";
+import useDepartmentUpdateHook from "../hooks/useEditHook.js";
+import usePaginationHook from "../hooks/usePaginationHook.js";
 
 function DepartmentEdit() {
+
+    const {
+        handleChange,
+        handleSumit,
+        formData,
+        memberData,
+        handleDelete
+    } = useDepartmentUpdateHook();
+
+    const {
+        currentPage,
+        pagedData,
+        firstGroupPageNum,
+        lastGroupPageNum,
+        handlePageChange,
+        goToNextPage,
+        goToBeforePage
+    } = usePaginationHook(memberData);
     return (
         <>
             <Sidebar />
@@ -27,28 +47,42 @@ function DepartmentEdit() {
                                     fontWeight: 600
                                 }}
                                 type="text"
-                                defaultValue="DEPT-TECH-001"
+                                name="dpCode"
+                                defaultValue={formData.dpCode}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="form-group">
                             <label>부서 이름</label>
-                            <input type="text" defaultValue="기술 전략 본부" />
+                            <input
+                                type="text"
+                                name="dpName"
+                                defaultValue={formData.dpName}
+                                onChange={handleChange} />
                         </div>
                         <div className="form-group">
                             <label>부서장 사번</label>
-                            <input type="text" defaultValue="EMP-2024-001" />
+                            <input
+                                type="text"
+                                defaultValue={formData.dpManagerEmpId}
+                                name="dpManagerEmpId"
+                                onChange={handleChange} />
                         </div>
                         <div className="form-group">
                             <label>부서장 이름</label>
-                            <input type="text" defaultValue="김철수" />
+                            <input
+                                type="text"
+                                defaultValue={formData.dpManagerName}
+                                name="dpManagerName"
+                                onChange={handleChange} />
                         </div>
                         <div className="form-group full-width">
                             <label>부서 설명</label>
                             <textarea
                                 rows={4}
-                                defaultValue={
-                                    "전사 기술 로드맵 수립 및 핵심 아키텍처 설계를 담당하며, 부서 간 기술 협력을 조율하는 전략 조직입니다."
-                                }
+                                defaultValue={formData.dpDetail}
+                                name="dpDetail"
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -68,51 +102,17 @@ function DepartmentEdit() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>EMP-2023-01</td>
-                                    <td style={{ fontWeight: 600 }}>김철수</td>
-                                    <td>
-                                        <span className="role-badge">본부장</span>
-                                    </td>
-                                    <td>chulsoo.kim@architect.com</td>
-                                    <td>2023.01.15</td>
-                                </tr>
-                                <tr>
-                                    <td>EMP-2023-45</td>
-                                    <td style={{ fontWeight: 600 }}>이영희</td>
-                                    <td>
-                                        <span className="role-badge">수석 엔지니어</span>
-                                    </td>
-                                    <td>younghee.lee@architect.com</td>
-                                    <td>2023.03.01</td>
-                                </tr>
-                                <tr>
-                                    <td>EMP-2024-12</td>
-                                    <td style={{ fontWeight: 600 }}>박지민</td>
-                                    <td>
-                                        <span className="role-badge">매니저</span>
-                                    </td>
-                                    <td>jimin.park@architect.com</td>
-                                    <td>2024.02.10</td>
-                                </tr>
-                                <tr>
-                                    <td>EMP-2024-88</td>
-                                    <td style={{ fontWeight: 600 }}>최동훈</td>
-                                    <td>
-                                        <span className="role-badge">연구원</span>
-                                    </td>
-                                    <td>dh.choi@architect.com</td>
-                                    <td>2024.05.20</td>
-                                </tr>
-                                <tr>
-                                    <td>EMP-2024-88</td>
-                                    <td style={{ fontWeight: 600 }}>최동훈</td>
-                                    <td>
-                                        <span className="role-badge">연구원</span>
-                                    </td>
-                                    <td>dh.choi@architect.com</td>
-                                    <td>2024.05.20</td>
-                                </tr>
+                                {pagedData?.map((member) => (
+                                    <tr key={member.email}>
+                                        <td>{member.empId}</td>
+                                        <td style={{ fontWeight: 600 }}>{member.name}</td>
+                                        <td>
+                                            <span className="role-badge">{member.position}</span>
+                                        </td>
+                                        <td>{member.email}</td>
+                                        <td>{member.hireDate}</td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                         <div className="table-footer">
@@ -127,7 +127,9 @@ function DepartmentEdit() {
                                 전체 인원 12명 중 1~5번째 표시 중
                             </p>
                             <div className="pagination">
-                                <button className="page-btn">
+                                <button className="page-btn"
+                                onClick={goToBeforePage}
+                                type="button">
                                     <span
                                         className="material-symbols-outlined"
                                         style={{ fontSize: 16 }}
@@ -135,10 +137,16 @@ function DepartmentEdit() {
                                         chevron_left
                                     </span>
                                 </button>
-                                <button className="page-btn active">1</button>
-                                <button className="page-btn">2</button>
-                                <button className="page-btn">3</button>
-                                <button className="page-btn">
+                                {Array.from({ length: lastGroupPageNum - firstGroupPageNum + 1 }, (_, i) => i + firstGroupPageNum).map((pageNum) => (
+                                <button 
+                                key={pageNum}
+                                className={`page-btn ${currentPage === pageNum ? 'active' : ''}`}
+                                type="button"
+                                onClick={() => handlePageChange(pageNum)}>{pageNum}</button>
+                                ))}
+                                <button className="page-btn"
+                                onClick={goToNextPage}
+                                type="button">
                                     <span
                                         className="material-symbols-outlined"
                                         style={{ fontSize: 16 }}
@@ -152,7 +160,7 @@ function DepartmentEdit() {
                 </section>
                 {/* Functional Buttons */}
                 <footer className="actions-footer">
-                    <button className="btn btn-danger">
+                    <button className="btn btn-danger" onClick={handleDelete}>
                         <span
                             className="material-symbols-outlined"
                             style={{ fontSize: "1.25rem" }}
@@ -162,12 +170,6 @@ function DepartmentEdit() {
                         부서 삭제
                     </button>
                     <div className="button-group">
-                        {/* <button
-                className="btn btn-secondary"
-                onclick="location.href='./department-management.html'"
-                >
-                취소
-                </button> */}
                         <button
                             className="btn btn-secondary"
                             onClick={() => {
@@ -176,7 +178,7 @@ function DepartmentEdit() {
                         >
                             취소
                         </button>
-                        <button className="btn btn-primary">
+                        <button className="btn btn-primary" onClick={handleSumit}>
                             <span
                                 className="material-symbols-outlined"
                                 style={{ fontSize: "1.25rem" }}

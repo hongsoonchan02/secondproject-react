@@ -1,6 +1,6 @@
 import { useDepartmentQuery } from '../query/departmentQuery'
 
-const useDepartmentManagement = (keyword) => {
+const useDepartmentManagementHook = (keyword) => {
     const { data, isLoading } = useDepartmentQuery(keyword);
 
     return {
@@ -9,4 +9,4 @@ const useDepartmentManagement = (keyword) => {
     }
 }
 
-export default useDepartmentManagement;
+export default useDepartmentManagementHook;
