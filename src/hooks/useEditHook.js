@@ -32,6 +32,8 @@ const useDepartmentUpdateHook = () => {
                     dpDetail: data.dpDetail
                })
           }
+
+          
      }, [data])
 
      const handleChange = (e) => {
